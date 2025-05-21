@@ -1,0 +1,85 @@
+### GET users
+GET http://localhost:8080/users
+
+### GET user by id
+GET http://localhost:8080/users/2
+
+### POST user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "name": "Ciclano",
+    "email": "ciclano@email.com",
+    "password": "87654321"
+}
+
+### PUT user by id
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+    "name": "Fulano Júnior",
+    "email": "fulano@email.com",
+    "password": "87654321"
+}
+
+### DELETE user by id
+DELETE http://localhost:8080/users/1
+
+### GET task by id
+GET http://localhost:8080/tasks/1
+
+### GET tasks assigned to user by id
+GET http://localhost:8080/tasks?assignedTo=3
+
+### POST task
+POST http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+    "title": "fix bug line 127",
+    "description": "some description",
+    "assignedUsers": [
+        {
+            "id": 1,
+            "name": "Fulano",
+            "email": "fulano@email.com",
+            "password": "12345678"
+        },
+        {
+            "id": 2,
+            "name": "Ciclano",
+            "email": "ciclano@email.com",
+            "password": "87654321"
+        }
+    ]
+}
+
+### PUT task
+PUT http://localhost:8080/tasks/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "fix bug line 127",
+    "description": "some description",
+    "status": "DONE",
+    "assignedUsers": [
+        {
+            "id": 1,
+            "name": "Fulano",
+            "email": "fulano@email.com",
+            "password": "12345678"
+        },
+        {
+            "id": 2,
+            "name": "Ciclano",
+            "email": "ciclano@email.com",
+            "password": "87654321"
+        }
+    ]
+}
+
+### DELETE task by id
+DELETE http://localhost:8080/tasks/1
