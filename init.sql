@@ -1,0 +1,2 @@
+CREATE DATABASE rest_api IF NOT EXISTS;
+USE rest_api;
