@@ -32,6 +32,13 @@ public class Task {
         this.assignedUsers = assignedUsers;
     }
 
+    public Task(Long id, String title, String description, List<User> assignedUsers) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.assignedUsers = assignedUsers;
+    }
+
     public Long getId() {
         return id;
     }

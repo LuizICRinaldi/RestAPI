@@ -1,11 +1,37 @@
+### Register a user
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+    "name": "Bob",
+    "email": "bob@email.com",
+    "password": "12345678",
+    "role": "USER"
+}
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "login": "bob@email.com",
+    "password": "12345678"
+}
+
+### Logout
+POST http://localhost:8080/auth/logout
+
 ### GET users
 GET http://localhost:8080/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 
 ### GET user by id
-GET http://localhost:8080/users/2
+GET http://localhost:8080/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 
 ### POST user
 POST http://localhost:8080/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 Content-Type: application/json
 
 {
@@ -16,6 +42,7 @@ Content-Type: application/json
 
 ### PUT user by id
 PUT http://localhost:8080/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 Content-Type: application/json
 
 {
@@ -26,15 +53,19 @@ Content-Type: application/json
 
 ### DELETE user by id
 DELETE http://localhost:8080/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 
 ### GET task by id
 GET http://localhost:8080/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 
 ### GET tasks assigned to user by id
 GET http://localhost:8080/tasks?assignedTo=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 
 ### POST task
 POST http://localhost:8080/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 Content-Type: application/json
 
 {
@@ -58,6 +89,7 @@ Content-Type: application/json
 
 ### PUT task
 PUT http://localhost:8080/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE
 Content-Type: application/json
 
 {
@@ -83,3 +115,4 @@ Content-Type: application/json
 
 ### DELETE task by id
 DELETE http://localhost:8080/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODg3OTc0MX0.eyXbDCliLa8455jj1-3n12YsgZrUd5bxbiXAVlKeXaE

@@ -1,10 +1,19 @@
 package com.RestAPI.entity;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.RestAPI.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,16 +23,20 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
 @SQLRestriction("is_deleted = 'false'")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    
     @Column(unique = true)
     private String email;
     private String password;
-    private boolean isDeleted;
+
+    @Enumerated
+    private UserRole role;
+    private boolean isDeleted = false;
     
     public User() {}
 
@@ -31,7 +44,6 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.isDeleted = false;
     }
 
     public User(Long id, String name, String email, String password) {
@@ -39,6 +51,23 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String name, String email, String password, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }   
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public Long getId() {
