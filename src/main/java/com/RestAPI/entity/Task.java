@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +21,7 @@ public class Task {
     private String title;
     private String description;
     private Status status = Status.IN_PROGRESS;
-    @OneToMany
+    @ManyToMany
     private List<User> assignedUsers;
 
     public Task() {}

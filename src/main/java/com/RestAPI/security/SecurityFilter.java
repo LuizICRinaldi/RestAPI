@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.RestAPI.exception.UserNotFoundException;
 import com.RestAPI.repository.UserRepository;
 import com.RestAPI.service.TokenService;
 
@@ -34,6 +35,10 @@ public class SecurityFilter extends OncePerRequestFilter {
         if(token != null) {
             String login = tokenService.validateToken(token); 
             UserDetails user = userRepository.findByEmail(login);
+
+            if(user == null)
+                throw new UserNotFoundException("No user found");
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

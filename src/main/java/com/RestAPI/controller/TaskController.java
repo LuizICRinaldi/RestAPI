@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.RestAPI.dto.TaskDTO;
 import com.RestAPI.entity.Task;
 import com.RestAPI.service.TaskService;
 
@@ -31,7 +32,7 @@ public class TaskController {
     @Operation(summary = "Obter detalhes de uma tarefa")
     @ApiResponse(responseCode = "200", description = "Tarefa encontrada")
     @ApiResponse(responseCode = "404", description = "Tarefa não encontrada")
-    public Task getTaskById(@PathVariable Long id) {
+    public TaskDTO getTaskById(@PathVariable Long id) {
         return taskService.getTaskById(id);
     }
 
@@ -39,7 +40,7 @@ public class TaskController {
     @Operation(summary = "Listar todas as tarefas atribuídas a um usuário")
     @ApiResponse(responseCode = "200", description = "Tarefas atribuídas a um usuário encontradas")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    public List<Task> getTasksUserById(@RequestParam("assignedTo") Long id) {
+    public List<TaskDTO> getTasksUserById(@RequestParam("assignedTo") Long id) {
         return taskService.getTasksUserById(id);
     }
 
@@ -47,7 +48,7 @@ public class TaskController {
     @Operation(summary = "Criar uma nova tarefa")
     @ApiResponse(responseCode = "200", description = "Tarefa criada")
     @ApiResponse(responseCode = "400", description = "Bad request")
-    public Task createTask(@RequestBody Task task) {
+    public TaskDTO createTask(@RequestBody Task task) {
         return taskService.createTask(task);
     }
 
@@ -55,7 +56,7 @@ public class TaskController {
     @Operation(summary = "Atualizar informações da tarefa (título, descrição, status)")
     @ApiResponse(responseCode = "200", description = "Tarefa atualizada")
     @ApiResponse(responseCode = "404", description = "Tarefa não encontrada")
-    public Task updateTaskById(@PathVariable Long id, @RequestBody Task task) {
+    public TaskDTO updateTaskById(@PathVariable Long id, @RequestBody Task task) {
         return taskService.updateTaskById(id, task);
     }
 

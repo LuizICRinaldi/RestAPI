@@ -1,39 +1,48 @@
 package com.RestAPI.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.RestAPI.dto.TaskDTO;
 import com.RestAPI.entity.Task;
 import com.RestAPI.exception.TaskNotFoundException;
+import com.RestAPI.mapper.TaskDTOMapper;
 import com.RestAPI.repository.TaskRepository;
 
 @Service
 public class TaskService {
-    private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private TaskDTOMapper taskDTOMapper;
+
+    public TaskDTO getTaskById(Long id) {
+        return taskRepository.findById(id)
+            .map(taskDTOMapper)
+            .orElseThrow(() -> new TaskNotFoundException("No task found with ID " + id));
     }
 
-    public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("No task found with ID " + id));
-    }
-
-    public List<Task> getTasksUserById(Long id) {
+    public List<TaskDTO> getTasksUserById(Long id) {
         List<Task> tasks = taskRepository.findAllByAssignedUsers_Id(id);
 
         if(tasks.isEmpty())
             throw new TaskNotFoundException("No tasks assigned to user with ID " + id);
 
-        return tasks;
+        return tasks.stream()
+            .map(taskDTOMapper)
+            .collect(Collectors.toList());
     }
 
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
+    public TaskDTO createTask(Task task) {
+        return taskDTOMapper.apply(taskRepository.save(task));
     }
 
-    public Task updateTaskById(Long id, Task updatedTask) {
+    public TaskDTO updateTaskById(Long id, Task updatedTask) {
         return taskRepository.findById(id)
             .map(task -> {
                 task.setTitle(updatedTask.getTitle());
@@ -41,7 +50,7 @@ public class TaskService {
                 task.setStatus(updatedTask.getStatus());
                 task.setAssignedUsers(updatedTask.getAssignedUsers());
 
-                return taskRepository.save(task);
+                return taskDTOMapper.apply(taskRepository.save(task));
             })
             .orElseThrow(() -> new TaskNotFoundException("No task found with ID " + id));
     }

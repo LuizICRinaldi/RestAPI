@@ -24,7 +24,7 @@ import com.RestAPI.service.TaskService;
 
 @WebMvcTest(TaskController.class)
 @AutoConfigureMockMvc
-public class taskControllerTests {
+public class TaskControllerTests {
 
     @Autowired
     private MockMvc mockMvc;

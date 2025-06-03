@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.RestAPI.dto.UserDTO;
 import com.RestAPI.entity.User;
 import com.RestAPI.security.SecurityConfigurations;
 import com.RestAPI.service.UserService;
@@ -37,7 +38,7 @@ public class UserController {
     @Operation(summary = "Obter informações de todos usuários")
     @ApiResponse(responseCode = "200", description = "Usuário(s) encontrado(s)")
     @ApiResponse(responseCode = "403", description = "Não autorizado")
-    public List<User> getUsers() {
+    public List<UserDTO> getUsers() {
         return userService.getAllUsers();
     }
 
@@ -46,7 +47,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Usuário específico encontrado")
     @ApiResponse(responseCode = "404", description = "Usuário específico não encontrado")
     @ApiResponse(responseCode = "403", description = "Não autorizado")
-    public User getUserById(@PathVariable Long id) {
+    public UserDTO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
     @ApiResponse(responseCode = "201", description = "Usuário criado")
     @ApiResponse(responseCode = "409", description = "Usuário já existe")
     @ApiResponse(responseCode = "403", description = "Não autorizado")
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody User user) {
         return userService.insertUser(user);
     }
 
@@ -65,7 +66,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Usuário atualizado")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @ApiResponse(responseCode = "403", description = "Não autorizado")
-    public User updateUserById(@PathVariable Long id, @RequestBody User user) {
+    public UserDTO updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUserById(id, user);
     }
 
