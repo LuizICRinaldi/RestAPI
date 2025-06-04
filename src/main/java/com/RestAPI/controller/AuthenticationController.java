@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.RestAPI.dto.AuthenticationDTO;
 import com.RestAPI.dto.LoginResponseDTO;
 import com.RestAPI.dto.RegisterDTO;
+import com.RestAPI.entity.Token;
 import com.RestAPI.entity.User;
 import com.RestAPI.repository.UserRepository;
 import com.RestAPI.service.TokenService;
@@ -47,14 +48,19 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Validated AuthenticationDTO data) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
-        String token = tokenService.generateToken((User) auth.getPrincipal());
+        String jwt = tokenService.generateToken((User) auth.getPrincipal());
+        User user = (User) auth.getPrincipal();
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        // TODO save the generated token
+        revokeAllUserTokens(user);
+        saveUserToken((User) auth.getPrincipal(), jwt);
+
+        return ResponseEntity.ok(new LoginResponseDTO(jwt));
     }
 
     @PostMapping("/register")
     @Operation(summary = "Registrar usuário")
-    @ApiResponse(responseCode = "200", description = "Usuário registrado")
+    @ApiResponse(responseCode = "201", description = "Usuário registrado")
     @ApiResponse(responseCode = "403", description = "Usuário já existe")
     public ResponseEntity<Void> register(@RequestBody @Validated RegisterDTO data) {
         if(userRepository.findByEmail(data.email()) != null)
@@ -64,7 +70,7 @@ public class AuthenticationController {
         User newUser = new User(data.name(), data.email(), encriptedPassword, data.role());
         userRepository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/logout")
@@ -73,5 +79,17 @@ public class AuthenticationController {
     public String performLogout(Authentication auth, HttpServletRequest request, HttpServletResponse response) {
         logoutHandler.logout(request, response, auth);
         return "You have successfully logged out";
+    }
+
+    private void saveUserToken(User user, String jwt) {
+        Token token = new Token();
+        token.setToken(jwt);
+        token.setLoggedOut(false);
+        token.setUser(user);
+        tokenService.save(token);
+    }
+
+    private void revokeAllUserTokens(User user) {
+        tokenService.findAllTokenByUser(user.getId());
     }
 }

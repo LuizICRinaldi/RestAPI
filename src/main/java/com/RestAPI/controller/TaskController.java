@@ -2,6 +2,8 @@ package com.RestAPI.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +48,10 @@ public class TaskController {
 
     @PostMapping
     @Operation(summary = "Criar uma nova tarefa")
-    @ApiResponse(responseCode = "200", description = "Tarefa criada")
+    @ApiResponse(responseCode = "201", description = "Tarefa criada")
     @ApiResponse(responseCode = "400", description = "Bad request")
-    public TaskDTO createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<TaskDTO> createTask(@RequestBody Task task) {
+        return new ResponseEntity<TaskDTO>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")

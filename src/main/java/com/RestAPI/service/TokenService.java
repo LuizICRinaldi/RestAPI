@@ -3,11 +3,15 @@ package com.RestAPI.service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.RestAPI.entity.Token;
 import com.RestAPI.entity.User;
+import com.RestAPI.repository.TokenRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -15,6 +19,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
 public class TokenService {
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Value("${api.security.token.secret}")
     private String secret;
@@ -37,12 +44,23 @@ public class TokenService {
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
+
+            boolean isValidToken = tokenRepository.findByToken(token)
+                .map(t -> !t.isLoggedOut())
+                .orElse(false);
             
-            return JWT.require(algorithm)
+            return isValidToken ? JWT.require(algorithm)
                 .withIssuer("RestAPI")
                 .build()
                 .verify(token)
-                .getSubject();
+                .getSubject() : "";
+
+            // TODO teste
+            // return JWT.require(algorithm)
+            //     .withIssuer("RestAPI")
+            //     .build()
+            //     .verify(token)
+            //     .getSubject();
         } catch (JWTVerificationException e) {
             return "";
         }
@@ -50,5 +68,21 @@ public class TokenService {
 
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public void save(Token token) {
+        tokenRepository.save(token);
+    }
+
+    public void findAllTokenByUser(Long id) {
+        List<Token> tokens = tokenRepository.findAllTokenByUser(id);
+
+        if(!tokens.isEmpty()) {
+            tokens.forEach(token -> {
+                token.setLoggedOut(true);
+            });
+        }
+
+        tokenRepository.saveAll(tokens);
     }
 }

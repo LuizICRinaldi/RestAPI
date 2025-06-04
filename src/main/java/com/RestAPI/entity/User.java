@@ -17,6 +17,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,8 +38,19 @@ public class User implements UserDetails {
     @Enumerated
     private UserRole role;
     private boolean isDeleted = false;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
     
     public User() {}
+
+    public User(Long id, String name, String email, String password, UserRole role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -59,6 +71,12 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }   
+
+    public User(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,5 +118,13 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 }

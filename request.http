@@ -20,11 +20,11 @@ Content-Type: application/json
 
 ### Logout
 POST http://localhost:8080/auth/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODk4Njk1NX0.USyZ1ghQblKgEnLrNvxNp19Hawq8bN9QkD2dcDI4Z2c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0OTA0OTYxMH0.xxehVW0EVA-YMt0VOL3W32RbcPV2uMLCU8MheVxC_Do
 
 ### GET users
 GET http://localhost:8080/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0ODk4Njk1NX0.USyZ1ghQblKgEnLrNvxNp19Hawq8bN9QkD2dcDI4Z2c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZXN0QVBJIiwic3ViIjoiYm9iQGVtYWlsLmNvbSIsImV4cCI6MTc0OTA0OTYxMH0.xxehVW0EVA-YMt0VOL3W32RbcPV2uMLCU8MheVxC_Do
 
 ### GET user by id
 GET http://localhost:8080/users/2
