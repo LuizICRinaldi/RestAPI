@@ -50,8 +50,6 @@ public class AuthenticationController {
         Authentication auth = authenticationManager.authenticate(usernamePassword);
         String jwt = tokenService.generateToken((User) auth.getPrincipal());
         User user = (User) auth.getPrincipal();
-
-        // TODO save the generated token
         revokeAllUserTokens(user);
         saveUserToken((User) auth.getPrincipal(), jwt);
 
